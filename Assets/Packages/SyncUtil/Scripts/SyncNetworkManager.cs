@@ -50,6 +50,14 @@ namespace SyncUtil
             _OnClientConnect(conn);
         }
 
+        // If your derived class does not want to call SyncNetworkManager.OnClientConnect() because 
+        // it calls NetworkManager.OnClientConnect(), which sets the network client as ready,
+        // then please call SyncNetworkManager.OnClientConnectCBOnly() instead.
+        protected void OnClientConnectCBOnly( NetworkConnection conn )
+        {
+            _OnClientConnect( conn );
+        }
+
 
         public event System.Action<NetworkConnection, int> _OnClientError = delegate { };
         public override void OnClientError(NetworkConnection conn, int errorCode)
