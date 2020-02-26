@@ -26,7 +26,7 @@ namespace SyncUtil
         public virtual BootType _bootType { get; } = BootType.Manual;
         public virtual bool _autoConnect { get; } = true;
         public virtual float _autoConnectInterval { get; } = 10f;
-
+        public virtual float bootDelay { get; } = 0f;
 
         SyncNetworkManager _networkManager;
 
@@ -36,9 +36,13 @@ namespace SyncUtil
             _networkManager = GetComponent<SyncNetworkManager>();
 			Assert.IsTrue(_networkManager);
 
-            if (_bootType != BootType.Manual) StartNetwork(_bootType);
+            if (_bootType != BootType.Manual) this.Invoke( "StartNetworkAfterDelay", bootDelay);
         }
 
+        void StartNetworkAfterDelay()
+        {
+            StartNetwork(_bootType);
+        }
         void StartNetwork(BootType bootType)
         {
             Assert.IsFalse(bootType == BootType.Manual);
